@@ -1,0 +1,94 @@
+{
+ "rows": {
+  "lignite_twh": {
+   "actual": 30.619,
+   "model": 29.359,
+   "unit": "TWh"
+  },
+  "hard_coal_twh": {
+   "actual": 45.109,
+   "model": 48.872,
+   "unit": "TWh"
+  },
+  "gas_twh": {
+   "actual": 17.092,
+   "model": 12.419,
+   "unit": "TWh"
+  },
+  "large_thermal_twh": {
+   "actual": 92.821,
+   "model": 90.65,
+   "unit": "TWh"
+  },
+  "import_twh": {
+   "actual": 5.527,
+   "model": 4.617,
+   "unit": "TWh"
+  },
+  "export_twh": {
+   "actual": 4.59,
+   "model": 1.94,
+   "unit": "TWh"
+  },
+  "net_import_twh": {
+   "actual": 0.937,
+   "model": 2.676,
+   "unit": "TWh"
+  },
+  "storage_charge_twh": {
+   "actual": 1.501,
+   "model": 1.641,
+   "unit": "TWh"
+  },
+  "storage_discharge_twh": {
+   "actual": 0.863,
+   "model": 1.316,
+   "unit": "TWh"
+  },
+  "curtailment_twh": {
+   "actual": 1.377,
+   "model": 1.287,
+   "unit": "TWh"
+  },
+  "curtailment_hours": {
+   "actual": 2400.0,
+   "model": 655.0,
+   "unit": "h"
+  },
+  "price_mean": {
+   "actual": 441.865,
+   "model": 351.036,
+   "unit": "PLN/MWh"
+  },
+  "price_median": {
+   "actual": 442.558,
+   "model": 405.895,
+   "unit": "PLN/MWh"
+  },
+  "hours_price_le_0": {
+   "actual": 356.0,
+   "model": 655.0,
+   "unit": "h"
+  },
+  "ens_twh": {
+   "actual": 0.0,
+   "model": 0.0,
+   "unit": "TWh"
+  }
+ },
+ "hourly": {
+  "large_thermal_r2": 0.799,
+  "large_thermal_corr": 0.901,
+  "lignite_corr": 0.767,
+  "hard_coal_corr": 0.815,
+  "gas_corr": 0.753,
+  "exchange_corr": 0.567,
+  "price_corr": 0.667,
+  "price_mae": 123.7,
+  "price_spearman": 0.831
+ },
+ "co2": {
+  "model_mt": 88.95,
+  "model_g_kwh": 561.5
+ }
+}

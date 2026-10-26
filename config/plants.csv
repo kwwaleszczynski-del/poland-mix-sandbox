@@ -1,0 +1,40 @@
+# Fuel of the power plants in PSE report gen-jw (units >= 100 MW), 2025. Classified by the author from public
+# descriptions of the plants (owners' websites, press); co-firing of biomass in coal units is ignored.
+# Zwartowo is classified as PV from its data (hourly correlation with national PV 0.84, zero at night).
+power_plant,fuel
+Bełchatów,lignite
+Turów,lignite
+Pątnów 2,lignite
+Opole,hard_coal
+Kozienice 1,hard_coal
+Kozienice 2,hard_coal
+Połaniec,hard_coal
+Jaworzno 2 JWCD,hard_coal
+Jaworzno 3,hard_coal
+Łaziska 3,hard_coal
+Rybnik,hard_coal
+Ostrołęka B,hard_coal
+EC Siekierki,hard_coal
+Łagisza,hard_coal
+Kraków Łęg,hard_coal
+Dolna Odra,hard_coal
+Chorzów,hard_coal
+Wrocław,hard_coal
+Skawina,hard_coal
+Karolin 2,hard_coal
+Siersza,hard_coal
+Katowice,hard_coal
+EC Łódź-4,hard_coal
+Gryfino,gas
+Płock,gas
+EC Żerań 2,gas
+EC Włocławek,gas
+EC Stalowa Wola,gas
+Zielona Góra,gas
+EC Wrotków,gas
+EC Czechnica-2,gas
+EC Rzeszów,gas
+Połaniec 2-Pasywna,biomass
+Porąbka Żar,pumped_hydro
+Żarnowiec,pumped_hydro
+Zwartowo,pv

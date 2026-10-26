@@ -1,0 +1,142 @@
+# ERA5 points (Open-Meteo archive, model "era5", 0.25 deg grid) used to model wind and PV output in other weather
+# years. Onshore wind and PV points cover the regions where the Polish fleets stand; the weights of the points are
+# not set by hand but fitted (non-negative least squares) to the PSE profiles of 2025, see profiles.py.
+# Offshore points are approximate centres of the Polish Baltic wind farm areas (Baltic Power, Baltica, Bałtyk,
+# BC-Wind) read off public maps of the projects; the offshore profile is their plain average.
+
+period = { start = "2010-01-01", end = "2026-09-30" }
+
+[[wind_onshore]]
+name = "koszalin"
+lat = 54.10
+lon = 16.20
+[[wind_onshore]]
+name = "goleniow"
+lat = 53.60
+lon = 14.80
+[[wind_onshore]]
+name = "pyrzyce"
+lat = 53.10
+lon = 14.90
+[[wind_onshore]]
+name = "slupsk"
+lat = 54.40
+lon = 17.00
+[[wind_onshore]]
+name = "potegowo"
+lat = 54.50
+lon = 17.50
+[[wind_onshore]]
+name = "koscierzyna"
+lat = 54.10
+lon = 18.00
+[[wind_onshore]]
+name = "braniewo"
+lat = 54.20
+lon = 19.80
+[[wind_onshore]]
+name = "elk"
+lat = 53.80
+lon = 22.40
+[[wind_onshore]]
+name = "grudziadz"
+lat = 53.30
+lon = 18.60
+[[wind_onshore]]
+name = "pila"
+lat = 53.10
+lon = 16.80
+[[wind_onshore]]
+name = "konin"
+lat = 52.20
+lon = 18.20
+[[wind_onshore]]
+name = "kepno"
+lat = 51.60
+lon = 17.90
+[[wind_onshore]]
+name = "leczyca"
+lat = 52.10
+lon = 19.20
+[[wind_onshore]]
+name = "suwalki"
+lat = 54.10
+lon = 22.90
+[[wind_onshore]]
+name = "opole"
+lat = 50.60
+lon = 17.90
+
+[[wind_offshore]]
+name = "baltic_power"
+lat = 54.95
+lon = 17.60
+[[wind_offshore]]
+name = "baltyk_2_3"
+lat = 55.05
+lon = 17.10
+[[wind_offshore]]
+name = "baltica_2_3"
+lat = 55.05
+lon = 16.50
+[[wind_offshore]]
+name = "srodkowa_lawica"
+lat = 55.30
+lon = 17.30
+
+[[pv]]
+name = "warszawa"
+lat = 52.23
+lon = 21.00
+[[pv]]
+name = "poznan"
+lat = 52.40
+lon = 16.90
+[[pv]]
+name = "wroclaw"
+lat = 51.10
+lon = 17.00
+[[pv]]
+name = "krakow"
+lat = 50.06
+lon = 19.94
+[[pv]]
+name = "gdansk"
+lat = 54.35
+lon = 18.65
+[[pv]]
+name = "lublin"
+lat = 51.25
+lon = 22.57
+[[pv]]
+name = "bialystok"
+lat = 53.13
+lon = 23.16
+[[pv]]
+name = "szczecin"
+lat = 53.43
+lon = 14.55
+[[pv]]
+name = "lodz"
+lat = 51.76
+lon = 19.46
+[[pv]]
+name = "rzeszow"
+lat = 50.04
+lon = 22.00
+[[pv]]
+name = "katowice"
+lat = 50.26
+lon = 19.02
+[[pv]]
+name = "olsztyn"
+lat = 53.78
+lon = 20.48
+[[pv]]
+name = "bydgoszcz"
+lat = 53.12
+lon = 18.00
+[[pv]]
+name = "zielona_gora"
+lat = 51.94
+lon = 15.50

@@ -1,0 +1,93 @@
+# Techno-economic assumptions of the toy model. Every number is an explicit, rounded assumption. Market prices are
+# 2025 averages; sources and the date they were read are listed in [sources] (read on 2026-10-26).
+# "calibrated" marks the few behavioural parameters fitted so that the model of 2025 matches PSE data (see README).
+
+[model]
+blocks_per_tech = 4        # each thermal technology = 4 equal blocks, efficiency from best to worst
+lookahead_h = 24           # look-ahead of the "peak" storage rule
+
+[prices]
+eur_pln = 4.24             # NBP mid rate, average of 2025 (4.2402)
+co2_eur_t = 74.0           # EU ETS allowance (EUA), spot average 2025 (ESMA)
+curtailment_pln_mwh = 0.0     # calibrated: hours with curtailment of wind and PV (median RCE in them ~10)
+surplus_pln_mwh = 280.0       # calibrated: other surplus hours, absorbed by storage and exports (mean RCE ~270)
+scarcity_pln_mwh = 5000.0     # hours with energy not served
+
+[tech.lignite]
+availability = 0.85        # share of capacity available on average (outages, maintenance)
+eff_best = 0.41            # net; newest units (Bełchatów 14, Turów 11) ~41-42%
+eff_worst = 0.33           # oldest 360 MW-class units; fleet mean 37% (Eurostat 2024: ~39% gross)
+fuel_pln_gj = 5.0          # calibrated: no public price; marginal cost of mine-mouth lignite is low because
+                           # most mining costs are fixed (~40 PLN/t at 8.14 GJ/t); keeps lignite as baseload
+ef_kg_gj = 110.64          # KOBiZE, lignite in public power plants
+vom_pln_mwh = 15.0
+
+[tech.hard_coal]
+availability = 0.85
+eff_best = 0.45            # supercritical units (Opole 5-6, Jaworzno 910 MW, Kozienice 11)
+eff_worst = 0.32           # 200 MW-class units; fleet mean 38.5%
+fuel_pln_gj = 18.0         # PSCMI 1 about 15.5-16.6 PLN/GJ in 2025 + ~2 PLN/GJ rail transport (assumption)
+ef_kg_gj = 93.89           # KOBiZE, hard coal in public power plants
+vom_pln_mwh = 12.0
+
+[tech.gas]
+availability = 0.90
+eff_best = 0.60            # new CCGT (KPEiK new-build CCGT 58-62%)
+eff_worst = 0.48           # older CCGT and CHP units, credited for their heat (KPEiK CCGT CHP 52-56%)
+fuel_eur_mwh_th = 40.0     # TTF day-ahead average 2025 36 EUR/MWh + ~4 EUR/MWh transport and tariffs (assumption)
+ef_kg_gj = 56.18           # KOBiZE, high-methane natural gas
+vom_pln_mwh = 8.0
+
+[nuclear]
+availability = 0.90
+min_load = 0.5             # nuclear follows load between 50% and 100% of its available capacity
+srmc_pln_mwh = 60.0        # fuel + variable O&M, assumption
+
+[storage]
+rte = 0.80                 # round trip; pumped storage 72-78% (FE, PSE register), batteries 88-90% (KPEiK)
+initial_soc = 0.5
+
+[import]
+price_pln_mwh = 410.0      # calibrated: imports are offered at this price ...
+availability = 0.7         # calibrated: ... for this share of the import limit
+
+[export]
+availability = 0.4         # calibrated: share of the export limit usable in surplus hours (neighbours are often
+                           # in surplus at the same time)
+
+[other]
+# small CHP, industrial plants, hydro, biomass and biogas outside the units >= 100 MW: their 2025 mix is roughly
+# 35% hard coal, 20% gas, 10% industrial gases and oil, 35% renewables (FE 2025 by fuel minus PSE gen-jw)
+co2_t_mwh = 0.45
+
+[offshore]
+losses = 0.18              # wakes (within and between farms), electrical losses, availability: gives 42-50% CF
+
+# Installed capacity used to turn the PSE profiles into capacity factors (MW, linear between the dates).
+# PV includes prosumer installations, as the PSE PV series does.
+[capacity_history]
+pv = [
+    { date = "2024-12-31", mw = 21300 },   # Forum Energii Rocznik 2026 (URE, MKiŚ, PSE data)
+    { date = "2025-09-01", mw = 24465 },   # PSE via gramwzielone.pl (2026-10-19)
+    { date = "2025-12-31", mw = 25900 },   # Forum Energii Rocznik 2026
+    { date = "2026-05-01", mw = 27083 },   # PSE via gramwzielone.pl (2026-06-19)
+    { date = "2026-09-01", mw = 28231 },   # PSE via gramwzielone.pl (2026-10-19)
+]
+wind_on = [
+    { date = "2024-12-31", mw = 10600 },   # Forum Energii Rocznik 2026
+    { date = "2025-10-01", mw = 11154 },   # PSE via gramwzielone.pl (2026-10-19)
+    { date = "2025-12-31", mw = 11200 },   # Forum Energii Rocznik 2026
+    { date = "2026-10-01", mw = 11794 },   # PSE via gramwzielone.pl (2026-10-19)
+]
+
+[sources]
+pse_api = "PSE S.A., reports API https://api.raporty.pse.pl (his-wlk-cal, poze-redoze, gen-jw, rce-pln), downloaded 2026-10-26 with pse-opendata 8b01ec8"
+pse_report_2025 = "PSE, Raport 2025 KSE, Tables 1.1, 6.1, 7.3: https://www.pse.pl/dane-systemowe/funkcjonowanie-kse/raporty-roczne-z-funkcjonowania-kse-za-rok/raporty-za-rok-2025"
+forum_energii = "Forum Energii, Transformacja energetyczna w Polsce. Rocznik 2026 (2026-09-04): https://www.forum-energii.eu/download/pobierz/rocznik-dane-o-energetyce"
+kpeik = "Krajowy plan w dziedzinie energii i klimatu do 2030 r. z perspektywą do 2040 r., adopted by the Council of Ministers on 2026-06-08; Annex 1 (WAM) Tables 3.8-3.10, Annex 2 Table 4.3, Annex 3 Tables 2.10-2.16: https://www.gov.pl/web/energia/krajowy-plan-w-dziedzinie-energii-i-klimatu-do-2030-r-z-perspektywa-do-2040-r---przyjety-przez-rade-ministrow"
+gramwzielone = "gramwzielone.pl citing PSE capacity counts: https://www.gramwzielone.pl/?p=20381844 (2026-10-19), https://www.gramwzielone.pl/?p=20363768 (2026-06-19)"
+kobize = "KOBiZE, Wartości opałowe i wskaźniki emisji CO2 w roku 2023 do raportowania w ramach EU ETS za rok 2026 (December 2025): https://web-arch.kobize.pl/uploads/materialy/materialy_do_pobrania/aktualnosci/2025/135.WO_i_WE_do_monitorowania_ETS_2026.pdf"
+esma = "ESMA, Market report on EU carbon markets 2026 (2026-07-09): https://www.esma.europa.eu/sites/default/files/2026-07/ESMA50-481369926-34622_Carbon_markets_report_2026.pdf"
+ec_gas = "European Commission DG ENER, Quarterly Report on European Gas Markets Q4 2025 (TTF day-ahead average 2025): https://energy.ec.europa.eu/data-and-analysis/market-analysis_en"
+nbp = "NBP, table A mid rates of EUR in 2025: https://api.nbp.pl"
+era5 = "ERA5 (Copernicus Climate Change Service) through the Open-Meteo historical weather API, CC BY 4.0: https://open-meteo.com"

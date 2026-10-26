@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Piaskownica miksu Polski</title>
+<meta name="description" content="Zbuduj polski system elektroenergetyczny suwakami: godzinowy model merit order na danych PSE i ERA5, w całości w przeglądarce.">
+<meta property="og:title" content="Piaskownica miksu Polski: zbuduj Polskę 2030">
+<meta property="og:description" content="PV, wiatr, atom, magazyny, węgiel, gaz i import: godzina po godzinie na danych PSE 2025. Obcięcia OZE, energia niedostarczona, emisje i cena.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kwwaleszczynski-del.github.io/poland-mix-sandbox/">
+<meta property="og:image" content="https://kwwaleszczynski-del.github.io/poland-mix-sandbox/card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='1' y='9' width='3' height='6' rx='1' fill='%232a78d6'/%3E%3Crect x='6.5' y='5' width='3' height='10' rx='1' fill='%23eda100'/%3E%3Crect x='12' y='2' width='3' height='13' rx='1' fill='%23e34948'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div>
+    <h1>Piaskownica miksu Polski</h1>
+    <p class="sub">Ustaw moce, a model godzina po godzinie (8760 h, rok referencyjny 2025, dane PSE) pokaże bilans, obcięcia OZE, energię niedostarczoną, emisje i przybliżoną cenę. Zabawka edukacyjna, nie model systemu.</p>
+  </div>
+  <div class="actions">
+    <button id="share" type="button">Kopiuj link do scenariusza</button>
+    <button id="theme" type="button" aria-label="Przełącz motyw jasny / ciemny">Motyw</button>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="panel controls" aria-label="Parametry scenariusza">
+    <div class="mini" id="mini" aria-hidden="true"></div>
+    <h2>Scenariusz</h2>
+    <div class="presets" id="presets" role="group" aria-label="Gotowe scenariusze"></div>
+    <p class="small" id="preset-note"></p>
+    <div id="controls"></div>
+    <fieldset>
+      <legend>Pogoda i magazyny</legend>
+      <div class="select-row">
+        <label for="weather" class="small">Rok pogodowy</label>
+        <select id="weather"></select>
+      </div>
+      <p class="small" id="weather-note"></p>
+      <div class="select-row">
+        <label for="rule" class="small">Sterowanie magazynem</label>
+        <select id="rule">
+          <option value="peak">ścinanie szczytów (24 h w przód)</option>
+          <option value="greedy">ładuj nadwyżkę, rozładuj deficyt</option>
+        </select>
+      </div>
+    </fieldset>
+    <details>
+      <summary>Ceny paliw i CO₂</summary>
+      <div id="controls-prices"></div>
+    </details>
+  </aside>
+
+  <main class="main">
+    <section class="tiles" id="tiles" aria-live="polite"></section>
+
+    <section class="panel">
+      <div class="chart-head">
+        <div>
+          <h2>Jeden tydzień, godzina po godzinie</h2>
+          <p class="small" id="week-title"></p>
+        </div>
+        <div class="week-nav">
+          <button type="button" id="week-hard">Najtrudniejszy</button>
+          <button type="button" id="week-surplus">Największa nadwyżka</button>
+          <label class="small" for="week">Tydzień</label>
+          <input type="range" id="week" min="1" max="52" value="3">
+        </div>
+      </div>
+      <div class="legend" id="week-legend"></div>
+      <div class="chart" id="week-chart"></div>
+      <h2 style="margin-top:10px">Cena przybliżona w tym tygodniu</h2>
+      <p class="small">Koszt krańcowy ostatniego bloku, PLN/MWh. Godziny niedoboru ucięte na skali.</p>
+      <div class="chart" id="price-chart"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Bilans roczny</h2>
+      <p class="small">TWh. Źródła po lewej sumują się do zapotrzebowania plus eksport i ładowanie magazynów.</p>
+      <div class="bars" id="bars"></div>
+      <details>
+        <summary>Tabela</summary>
+        <div class="table-wrap"><table id="balance-table"></table></div>
+      </details>
+    </section>
+
+    <section class="two">
+      <div class="panel">
+        <h2>Obciążenie rezydualne</h2>
+        <p class="small">Zapotrzebowanie minus wiatr i PV, godziny posortowane, GW. Poniżej zera: nadwyżka.</p>
+        <div class="chart" id="residual-chart"></div>
+      </div>
+      <div class="panel">
+        <h2>Krzywa cen</h2>
+        <p class="small">Cena przybliżona, godziny posortowane, PLN/MWh.</p>
+        <div class="chart" id="duration-chart"></div>
+      </div>
+    </section>
+
+    <section class="panel" id="validation">
+      <h2>Walidacja: czy model odtwarza 2025?</h2>
+      <p class="small">Model uruchomiony na zmierzonych godzinowych danych 2025 (zapotrzebowanie, dostępny wiatr i PV, inne źródła), porównany z danymi PSE.</p>
+      <div class="table-wrap"><table id="validation-table"></table></div>
+      <p class="note" id="validation-note"></p>
+    </section>
+
+    <section class="panel">
+      <h2>Jak to działa i czego nie robi</h2>
+      <ul class="note">
+        <li>Każda godzina: najpierw wiatr i PV, potem źródła nieelastyczne (małe elektrociepłownie, biomasa, woda, minimum techniczne dużych bloków, atom na minimum), nadwyżka ładuje magazyn, idzie na eksport, reszta jest obcinana; deficyt pokrywa atom, magazyn, a potem bloki węglowe, gazowe i import według kosztu krańcowego.</li>
+        <li>Moce dużych bloków (co najmniej 100 MW) wg danych PSE; „inne” to średnia moc małych źródeł. Wymiana z sąsiadami jest uproszczona: import po stałej cenie, eksport tylko nadwyżki.</li>
+        <li>Brak sieci, ograniczeń przesyłowych, rezerw, uruchomień bloków, cen sąsiadów, zmiany kształtu zapotrzebowania (pompy ciepła, auta) i odpowiedzi popytu. Wyniki dla lat przyszłych to ilustracja, nie prognoza.</li>
+        <li>Wiatr na morzu i inne lata pogodowe z ERA5 (Copernicus) przez Open-Meteo; zapotrzebowanie zawsze z 2025.</li>
+      </ul>
+      <p class="note" id="sources"></p>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <p>Dane: PSE S.A. (raporty his-wlk-cal, poze-redoze, gen-jw, rce-pln; informacja pozyskana z www.pse.pl, stan na 26.10.2026, przetworzona: godzinowe średnie, profile znormalizowane), ERA5 Copernicus Climate Change Service przez Open-Meteo (CC BY 4.0). Kod: MIT. Materiał edukacyjny, bez związku z PSE.</p>
+  <p><a href="https://github.com/kwwaleszczynski-del/poland-mix-sandbox">Kod i opis modelu na GitHubie</a></p>
+</footer>
+<div class="toast" id="toast" role="status"></div>
+<script type="module" src="app.js"></script>
+</body>
+</html>

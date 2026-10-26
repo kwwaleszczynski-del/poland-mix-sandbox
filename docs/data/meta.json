@@ -1,0 +1,456 @@
+{
+ "built": "2026-10-26",
+ "reference": {
+  "year": 2025,
+  "start_utc": "2024-12-31T23:00:00Z",
+  "demand_twh": 158.41,
+  "other_gw": 2.76,
+  "mustrun_gw": 6.6,
+  "pv_cap_mean_mw": 23658,
+  "wind_cap_mean_mw": 10953,
+  "pv_cf": 0.0981,
+  "wind_on_cf": 0.2326,
+  "pv_redispatch_twh": 0.982,
+  "wind_redispatch_twh": 0.395
+ },
+ "model": {
+  "co2_price_pln_t": 313.76,
+  "blocks_per_tech": 4,
+  "lookahead_h": 24,
+  "tech": {
+   "lignite": {
+    "availability": 0.85,
+    "eff_best": 0.41,
+    "eff_worst": 0.33,
+    "fuel_pln_gj": 5.0,
+    "ef_t_gj": 0.11064,
+    "vom_pln_mwh": 15.0
+   },
+   "hard_coal": {
+    "availability": 0.85,
+    "eff_best": 0.45,
+    "eff_worst": 0.32,
+    "fuel_pln_gj": 18.0,
+    "ef_t_gj": 0.09389,
+    "vom_pln_mwh": 12.0
+   },
+   "gas": {
+    "availability": 0.9,
+    "eff_best": 0.6,
+    "eff_worst": 0.48,
+    "fuel_pln_gj": 47.1111,
+    "ef_t_gj": 0.05618,
+    "vom_pln_mwh": 8.0
+   }
+  },
+  "nuclear": {
+   "availability": 0.9,
+   "min_load": 0.5,
+   "srmc_pln_mwh": 60.0
+  },
+  "other": {
+   "co2_t_mwh": 0.45
+  },
+  "storage": {
+   "rte": 0.8,
+   "initial_soc": 0.5
+  },
+  "import": {
+   "price_pln_mwh": 410.0,
+   "availability": 0.7
+  },
+  "export": {
+   "availability": 0.4
+  },
+  "prices": {
+   "curtailment_pln_mwh": 0.0,
+   "surplus_pln_mwh": 280.0,
+   "scarcity_pln_mwh": 5000.0
+  }
+ },
+ "assumptions": {
+  "prices": {
+   "eur_pln": 4.24,
+   "co2_eur_t": 74.0,
+   "curtailment_pln_mwh": 0.0,
+   "surplus_pln_mwh": 280.0,
+   "scarcity_pln_mwh": 5000.0
+  },
+  "tech": {
+   "lignite": {
+    "availability": 0.85,
+    "eff_best": 0.41,
+    "eff_worst": 0.33,
+    "fuel_pln_gj": 5.0,
+    "ef_kg_gj": 110.64,
+    "vom_pln_mwh": 15.0
+   },
+   "hard_coal": {
+    "availability": 0.85,
+    "eff_best": 0.45,
+    "eff_worst": 0.32,
+    "fuel_pln_gj": 18.0,
+    "ef_kg_gj": 93.89,
+    "vom_pln_mwh": 12.0
+   },
+   "gas": {
+    "availability": 0.9,
+    "eff_best": 0.6,
+    "eff_worst": 0.48,
+    "fuel_eur_mwh_th": 40.0,
+    "ef_kg_gj": 56.18,
+    "vom_pln_mwh": 8.0
+   }
+  },
+  "nuclear": {
+   "availability": 0.9,
+   "min_load": 0.5,
+   "srmc_pln_mwh": 60.0
+  },
+  "storage": {
+   "rte": 0.8,
+   "initial_soc": 0.5
+  },
+  "import": {
+   "price_pln_mwh": 410.0,
+   "availability": 0.7
+  },
+  "export": {
+   "availability": 0.4
+  },
+  "other": {
+   "co2_t_mwh": 0.45
+  },
+  "offshore": {
+   "losses": 0.18
+  }
+ },
+ "scenarios": {
+  "today": {
+   "label": "Dziś (koniec 2025)",
+   "note": "Moce na koniec 2025: PV 25,9 GW i wiatr na lądzie 11,2 GW (Forum Energii, Rocznik 2026), duże bloki cieplne wg PSE gen-jw, elektrownie szczytowo-pompowe 1,7 GW / 7,3 GWh, zdolności przesyłowe 5,7 GW import / 4,9 GW eksport (KPEiK, zał. 2), zapotrzebowanie 2025.",
+   "values": {
+    "pv": 25.9,
+    "wind_on": 11.2,
+    "wind_off": 0.0,
+    "nuclear": 0.0,
+    "lignite": 7.0,
+    "hard_coal": 15.7,
+    "gas": 4.0,
+    "other": 2.76,
+    "storage_gw": 1.7,
+    "storage_gwh": 7.3,
+    "import_gw": 5.7,
+    "export_gw": 4.9,
+    "mustrun_gw": 7.9,
+    "demand_twh": 158.4,
+    "storage_rule": "peak"
+   }
+  },
+  "kpeik2030": {
+   "label": "2030 wg KPEiK",
+   "note": "KPEiK przyjęty przez Radę Ministrów 8.06.2026, scenariusz WAM, 2030: PV 32,4 GW, wiatr na lądzie 16,5 GW, na morzu 5,9 GW, baterie 5,9 GW i szczytowo-pompowe 1,6 GW, węgiel brunatny 6,6 GW, kamienny 12,2 GW, gaz 11,6 GW, produkcja brutto 196,5 TWh, wymiana 6,4 / 5,6 GW. Duże bloki i energia magazynów przeliczone wg założeń w repozytorium.",
+   "values": {
+    "pv": 32.4,
+    "wind_on": 16.5,
+    "wind_off": 5.9,
+    "nuclear": 0.0,
+    "lignite": 5.5,
+    "hard_coal": 8.3,
+    "gas": 7.3,
+    "other": 2.5,
+    "storage_gw": 7.4,
+    "storage_gwh": 24.0,
+    "import_gw": 6.4,
+    "export_gw": 5.6,
+    "mustrun_gw": 6.2,
+    "demand_twh": 174.8,
+    "storage_rule": "peak"
+   }
+  },
+  "no_coal": {
+   "label": "2030 bez węgla",
+   "note": "KPEiK 2030 z wyłączonymi wszystkimi blokami węglowymi, bez niczego w zamian. Minimum pracy zostaje tylko dla bloków gazowych.",
+   "values": {
+    "pv": 32.4,
+    "wind_on": 16.5,
+    "wind_off": 5.9,
+    "nuclear": 0.0,
+    "lignite": 0.0,
+    "hard_coal": 0.0,
+    "gas": 7.3,
+    "other": 2.5,
+    "storage_gw": 7.4,
+    "storage_gwh": 24.0,
+    "import_gw": 6.4,
+    "export_gw": 5.6,
+    "mustrun_gw": 2.2,
+    "demand_twh": 174.8,
+    "storage_rule": "peak"
+   }
+  },
+  "kpeik2040": {
+   "label": "2040 wg KPEiK",
+   "note": "KPEiK WAM 2040: PV 43,0 GW, wiatr na lądzie 28,8 GW, na morzu 17,9 GW, atom 5,9 GW, baterie 19,1 GW i szczytowo-pompowe 4,0 GW, elektrownie węglowe 4,6 GW (podział na brunatny i kamienny jak w 2030: założenie), gaz z turbinami szczytowymi 25,5 GW, produkcja brutto 270,5 TWh.",
+   "values": {
+    "pv": 43.0,
+    "wind_on": 28.8,
+    "wind_off": 17.9,
+    "nuclear": 5.9,
+    "lignite": 1.7,
+    "hard_coal": 1.7,
+    "gas": 16.1,
+    "other": 1.15,
+    "storage_gw": 23.1,
+    "storage_gwh": 75.0,
+    "import_gw": 6.4,
+    "export_gw": 5.6,
+    "mustrun_gw": 5.8,
+    "demand_twh": 240.6,
+    "storage_rule": "peak"
+   }
+  }
+ },
+ "weather_years": {
+  "2010": {
+   "pv": 0.0909,
+   "wind_on": 0.245,
+   "wind_off": 0.4351
+  },
+  "2011": {
+   "pv": 0.0963,
+   "wind_on": 0.2652,
+   "wind_off": 0.4849
+  },
+  "2012": {
+   "pv": 0.0943,
+   "wind_on": 0.2503,
+   "wind_off": 0.4604
+  },
+  "2013": {
+   "pv": 0.0917,
+   "wind_on": 0.2291,
+   "wind_off": 0.4365
+  },
+  "2014": {
+   "pv": 0.0958,
+   "wind_on": 0.2351,
+   "wind_off": 0.4622
+  },
+  "2015": {
+   "pv": 0.0976,
+   "wind_on": 0.275,
+   "wind_off": 0.4923
+  },
+  "2016": {
+   "pv": 0.0931,
+   "wind_on": 0.2284,
+   "wind_off": 0.4301
+  },
+  "2017": {
+   "pv": 0.0895,
+   "wind_on": 0.2787,
+   "wind_off": 0.4964
+  },
+  "2018": {
+   "pv": 0.1003,
+   "wind_on": 0.2264,
+   "wind_off": 0.4186
+  },
+  "2019": {
+   "pv": 0.0972,
+   "wind_on": 0.2729,
+   "wind_off": 0.484
+  },
+  "2020": {
+   "pv": 0.0952,
+   "wind_on": 0.267,
+   "wind_off": 0.4849
+  },
+  "2021": {
+   "pv": 0.0941,
+   "wind_on": 0.238,
+   "wind_off": 0.4348
+  },
+  "2022": {
+   "pv": 0.0978,
+   "wind_on": 0.2482,
+   "wind_off": 0.4321
+  },
+  "2023": {
+   "pv": 0.0938,
+   "wind_on": 0.2563,
+   "wind_off": 0.4596
+  },
+  "2024": {
+   "pv": 0.0952,
+   "wind_on": 0.256,
+   "wind_off": 0.4633
+  },
+  "2025": {
+   "pv": 0.0973,
+   "wind_on": 0.2322,
+   "wind_off": 0.4359
+  }
+ },
+ "fit": [
+  {
+   "kind": "wind_on",
+   "r2_in_sample": 0.885160917338759,
+   "r2_h2_2024": 0.8918183109796542,
+   "r2_2026": 0.800163370035935,
+   "corr_2026": 0.9351409946019782,
+   "scale": 1.0829567843568255,
+   "weights": {
+    "goleniow": 714.0,
+    "pyrzyce": 1535.9,
+    "slupsk": 1779.0,
+    "koscierzyna": 299.1,
+    "braniewo": 836.7,
+    "grudziadz": 394.2,
+    "pila": 49.9,
+    "kepno": 2105.1,
+    "leczyca": 1161.8,
+    "suwalki": 1223.0,
+    "opole": 698.2
+   }
+  },
+  {
+   "kind": "pv",
+   "r2_in_sample": 0.968011140516666,
+   "r2_h2_2024": 0.9637952330768306,
+   "r2_2026": 0.9410129490813494,
+   "corr_2026": 0.9857396134996446,
+   "scale": 1.011998413626545,
+   "weights": {
+    "warszawa_tilted": 237.1,
+    "warszawa_horizontal": 522.2,
+    "poznan_tilted": 1500.2,
+    "wroclaw_horizontal": 1697.9,
+    "krakow_horizontal": 1239.9,
+    "gdansk_tilted": 334.0,
+    "gdansk_horizontal": 965.2,
+    "lublin_tilted": 995.7,
+    "lublin_horizontal": 255.3,
+    "bialystok_tilted": 736.1,
+    "szczecin_tilted": 898.7,
+    "szczecin_horizontal": 673.6,
+    "lodz_horizontal": 1012.1,
+    "rzeszow_tilted": 405.7,
+    "rzeszow_horizontal": 215.5,
+    "katowice_tilted": 323.8,
+    "katowice_horizontal": 589.7,
+    "olsztyn_horizontal": 1596.5,
+    "bydgoszcz_tilted": 905.1,
+    "zielona_gora_tilted": 997.2,
+    "zielona_gora_horizontal": 740.2
+   }
+  }
+ ],
+ "sources": {
+  "pse_api": "PSE S.A., reports API https://api.raporty.pse.pl (his-wlk-cal, poze-redoze, gen-jw, rce-pln), downloaded 2026-10-26 with pse-opendata 8b01ec8",
+  "pse_report_2025": "PSE, Raport 2025 KSE, Tables 1.1, 6.1, 7.3: https://www.pse.pl/dane-systemowe/funkcjonowanie-kse/raporty-roczne-z-funkcjonowania-kse-za-rok/raporty-za-rok-2025",
+  "forum_energii": "Forum Energii, Transformacja energetyczna w Polsce. Rocznik 2026 (2026-09-04): https://www.forum-energii.eu/download/pobierz/rocznik-dane-o-energetyce",
+  "kpeik": "Krajowy plan w dziedzinie energii i klimatu do 2030 r. z perspektywą do 2040 r., adopted by the Council of Ministers on 2026-06-08; Annex 1 (WAM) Tables 3.8-3.10, Annex 2 Table 4.3, Annex 3 Tables 2.10-2.16: https://www.gov.pl/web/energia/krajowy-plan-w-dziedzinie-energii-i-klimatu-do-2030-r-z-perspektywa-do-2040-r---przyjety-przez-rade-ministrow",
+  "gramwzielone": "gramwzielone.pl citing PSE capacity counts: https://www.gramwzielone.pl/?p=20381844 (2026-10-19), https://www.gramwzielone.pl/?p=20363768 (2026-06-19)",
+  "kobize": "KOBiZE, Wartości opałowe i wskaźniki emisji CO2 w roku 2023 do raportowania w ramach EU ETS za rok 2026 (December 2025): https://web-arch.kobize.pl/uploads/materialy/materialy_do_pobrania/aktualnosci/2025/135.WO_i_WE_do_monitorowania_ETS_2026.pdf",
+  "esma": "ESMA, Market report on EU carbon markets 2026 (2026-07-09): https://www.esma.europa.eu/sites/default/files/2026-07/ESMA50-481369926-34622_Carbon_markets_report_2026.pdf",
+  "ec_gas": "European Commission DG ENER, Quarterly Report on European Gas Markets Q4 2025 (TTF day-ahead average 2025): https://energy.ec.europa.eu/data-and-analysis/market-analysis_en",
+  "nbp": "NBP, table A mid rates of EUR in 2025: https://api.nbp.pl",
+  "era5": "ERA5 (Copernicus Climate Change Service) through the Open-Meteo historical weather API, CC BY 4.0: https://open-meteo.com"
+ },
+ "validation": {
+  "rows": {
+   "lignite_twh": {
+    "actual": 30.619,
+    "model": 29.359,
+    "unit": "TWh"
+   },
+   "hard_coal_twh": {
+    "actual": 45.109,
+    "model": 48.872,
+    "unit": "TWh"
+   },
+   "gas_twh": {
+    "actual": 17.092,
+    "model": 12.419,
+    "unit": "TWh"
+   },
+   "large_thermal_twh": {
+    "actual": 92.821,
+    "model": 90.65,
+    "unit": "TWh"
+   },
+   "import_twh": {
+    "actual": 5.527,
+    "model": 4.617,
+    "unit": "TWh"
+   },
+   "export_twh": {
+    "actual": 4.59,
+    "model": 1.94,
+    "unit": "TWh"
+   },
+   "net_import_twh": {
+    "actual": 0.937,
+    "model": 2.676,
+    "unit": "TWh"
+   },
+   "storage_charge_twh": {
+    "actual": 1.501,
+    "model": 1.641,
+    "unit": "TWh"
+   },
+   "storage_discharge_twh": {
+    "actual": 0.863,
+    "model": 1.316,
+    "unit": "TWh"
+   },
+   "curtailment_twh": {
+    "actual": 1.377,
+    "model": 1.287,
+    "unit": "TWh"
+   },
+   "curtailment_hours": {
+    "actual": 2400.0,
+    "model": 655.0,
+    "unit": "h"
+   },
+   "price_mean": {
+    "actual": 441.865,
+    "model": 351.036,
+    "unit": "PLN/MWh"
+   },
+   "price_median": {
+    "actual": 442.558,
+    "model": 405.895,
+    "unit": "PLN/MWh"
+   },
+   "hours_price_le_0": {
+    "actual": 356.0,
+    "model": 655.0,
+    "unit": "h"
+   },
+   "ens_twh": {
+    "actual": 0.0,
+    "model": 0.0,
+    "unit": "TWh"
+   }
+  },
+  "hourly": {
+   "large_thermal_r2": 0.799,
+   "large_thermal_corr": 0.901,
+   "lignite_corr": 0.767,
+   "hard_coal_corr": 0.815,
+   "gas_corr": 0.753,
+   "exchange_corr": 0.567,
+   "price_corr": 0.667,
+   "price_mae": 123.7,
+   "price_spearman": 0.831
+  },
+  "co2": {
+   "model_mt": 88.95,
+   "model_g_kwh": 561.5
+  }
+ }
+}

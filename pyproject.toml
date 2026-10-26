@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "poland-mix-sandbox"
+version = "0.1.0"
+description = "Build the Polish power system of 2030 with sliders: an hourly merit-order toy that runs in the browser, on public PSE and ERA5 data."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Konrad Waleszczyński" }]
+dependencies = [
+    "numpy>=1.26",
+    "pandas>=2.1",
+    "pyarrow>=14",
+]
+
+[project.optional-dependencies]
+# only needed to download and rebuild the data; the tests run on the data committed in docs/data
+data = [
+    "requests>=2.31",
+    "scipy>=1.11",
+    "matplotlib>=3.8",
+    "pse-opendata @ git+https://github.com/kwwaleszczynski-del/pse-opendata@8b01ec882b6f3af9c9ea91308293dda64108d705",
+]
+dev = ["pytest>=8"]
+
+[project.scripts]
+poland-mix-sandbox = "mix_sandbox.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

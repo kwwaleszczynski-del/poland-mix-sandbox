@@ -1,0 +1,95 @@
+# Preset scenarios of the page. Capacities in GW (storage energy in GWh), demand in TWh per year.
+#
+# Conventions of the model, used for every preset:
+# - demand follows the PSE definition of national demand (his-wlk-cal "demand", 158.4 TWh in 2025); future demand
+#   = 158.4 TWh x growth of gross generation in KPEiK WAM over its own 2025 value (178.1 TWh, Annex 1 Table 3.9),
+#   KPEiK assumes zero net imports;
+# - thermal sliders are the large units (>= 100 MW, PSE gen-jw): in 2025 they were 7.0 GW lignite, 15.7 GW hard
+#   coal and 4.0 GW gas (sum of unit maxima), i.e. 84%, 68% and 63% of the installed capacity in the PSE annual
+#   report (8.35, 23.10, 6.35 GW at 31.12.2025); future presets apply the same shares to KPEiK capacities;
+# - "other" = average output of small CHP, industrial plants, hydro, biomass and biogas (2.76 GW in 2025), scaled
+#   with the KPEiK capacity of hard coal CHP, industrial CHP, biomass, biogas and hydro;
+# - must-run of large thermal units (7.9 GW on average in 2025, calibrated) scales with their capacity;
+# - storage energy: KPEiK gives batteries in MW only; 3 h is assumed (KPEiK assumes 4 h for grid-scale and 2 h
+#   for prosumer batteries), pumped storage keeps 4.3 h (1.7 GW / 7.34 GWh today);
+# - import and export limits: net transfer capacities from KPEiK Annex 2 Table 4.3 (ENTSO-E).
+
+[scenario.today]
+label = "Dziś (koniec 2025)"
+note = "Moce na koniec 2025: PV 25,9 GW i wiatr na lądzie 11,2 GW (Forum Energii, Rocznik 2026), duże bloki cieplne wg PSE gen-jw, elektrownie szczytowo-pompowe 1,7 GW / 7,3 GWh, zdolności przesyłowe 5,7 GW import / 4,9 GW eksport (KPEiK, zał. 2), zapotrzebowanie 2025."
+[scenario.today.values]
+pv = 25.9
+wind_on = 11.2
+wind_off = 0.0
+nuclear = 0.0
+lignite = 7.0
+hard_coal = 15.7
+gas = 4.0
+other = 2.76
+storage_gw = 1.7
+storage_gwh = 7.3
+import_gw = 5.7
+export_gw = 4.9
+mustrun_gw = 7.9
+demand_twh = 158.4
+storage_rule = "peak"
+
+[scenario.kpeik2030]
+label = "2030 wg KPEiK"
+note = "KPEiK przyjęty przez Radę Ministrów 8.06.2026, scenariusz WAM, 2030: PV 32,4 GW, wiatr na lądzie 16,5 GW, na morzu 5,9 GW, baterie 5,9 GW i szczytowo-pompowe 1,6 GW, węgiel brunatny 6,6 GW, kamienny 12,2 GW, gaz 11,6 GW, produkcja brutto 196,5 TWh, wymiana 6,4 / 5,6 GW. Duże bloki i energia magazynów przeliczone wg założeń w repozytorium."
+[scenario.kpeik2030.values]
+pv = 32.4
+wind_on = 16.5
+wind_off = 5.9
+nuclear = 0.0
+lignite = 5.5
+hard_coal = 8.3
+gas = 7.3
+other = 2.5
+storage_gw = 7.4
+storage_gwh = 24.0
+import_gw = 6.4
+export_gw = 5.6
+mustrun_gw = 6.2
+demand_twh = 174.8
+storage_rule = "peak"
+
+[scenario.no_coal]
+label = "2030 bez węgla"
+note = "KPEiK 2030 z wyłączonymi wszystkimi blokami węglowymi, bez niczego w zamian. Minimum pracy zostaje tylko dla bloków gazowych."
+[scenario.no_coal.values]
+pv = 32.4
+wind_on = 16.5
+wind_off = 5.9
+nuclear = 0.0
+lignite = 0.0
+hard_coal = 0.0
+gas = 7.3
+other = 2.5
+storage_gw = 7.4
+storage_gwh = 24.0
+import_gw = 6.4
+export_gw = 5.6
+mustrun_gw = 2.2
+demand_twh = 174.8
+storage_rule = "peak"
+
+[scenario.kpeik2040]
+label = "2040 wg KPEiK"
+note = "KPEiK WAM 2040: PV 43,0 GW, wiatr na lądzie 28,8 GW, na morzu 17,9 GW, atom 5,9 GW, baterie 19,1 GW i szczytowo-pompowe 4,0 GW, elektrownie węglowe 4,6 GW (podział na brunatny i kamienny jak w 2030: założenie), gaz z turbinami szczytowymi 25,5 GW, produkcja brutto 270,5 TWh."
+[scenario.kpeik2040.values]
+pv = 43.0
+wind_on = 28.8
+wind_off = 17.9
+nuclear = 5.9
+lignite = 1.7
+hard_coal = 1.7
+gas = 16.1
+other = 1.15
+storage_gw = 23.1
+storage_gwh = 75.0
+import_gw = 6.4
+export_gw = 5.6
+mustrun_gw = 5.8
+demand_twh = 240.6
+storage_rule = "peak"
