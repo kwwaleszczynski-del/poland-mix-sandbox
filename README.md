@@ -141,7 +141,7 @@ gzip-compressed JSON files and `meta.json`, 97 kB loaded at start) is committed.
 
 | input | source | use |
 |---|---|---|
-| demand, wind, PV, generation, storage charging, cross-border balance, 2024-06-14..2026-09-30 | PSE reports API `his-wlk-cal` via [pse-opendata](https://github.com/kwwaleszczynski-del/pse-opendata) (pinned to commit 8b01ec8) | reference year, validation |
+| demand, wind, PV, generation, storage charging, cross-border balance, 2024-06-14..2026-09-30 | PSE reports API `his-wlk-cal` via [pse-opendata](https://pypi.org/project/pse-opendata/) (downloaded with commit 8b01ec8, now `pse-opendata>=0.2,<0.3`) | reference year, validation |
 | non-market redispatch of wind and PV | PSE `poze-redoze` | added back to get the available wind and PV; validation of curtailment |
 | generation of units >= 100 MW, 2025 | PSE `gen-jw`, plants classified by fuel in [config/plants.csv](config/plants.csv) | large-unit fleet, validation |
 | market price RCE, 2025 | PSE `rce-pln` | validation of the price |
