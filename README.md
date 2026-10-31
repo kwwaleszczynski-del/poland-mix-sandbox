@@ -29,7 +29,8 @@ Live page: <https://kwwaleszczynski-del.github.io/poland-mix-sandbox/> (Polish i
 
 ## Results of the presets
 
-Reference year 2025 (PSE weather), demand in the PSE definition (158.4 TWh in 2025):
+Reference year 2025 (PSE weather), demand in the PSE definition (158.4 TWh in 2025); `python -m mix_sandbox simulate
+--presets` writes this table to [results/presets.csv](results/presets.csv):
 
 | preset | wind + PV share | CO2 | curtailed wind + PV | energy not served | mean price |
 |---|---:|---:|---:|---:|---:|
@@ -38,7 +39,8 @@ Reference year 2025 (PSE weather), demand in the PSE definition (158.4 TWh in 20
 | 2030 without coal | 47.4% | 24.0 Mt (138 g/kWh) | 1.2 TWh | 8.7 TWh in 2705 h, up to 11.5 GW | 1799 PLN/MWh |
 | 2040 KPEiK | 56.6% | 34.3 Mt (143 g/kWh) | 27.8 TWh | 0.10 TWh in 79 h | 266 PLN/MWh |
 
-Over the 16 ERA5 weather years (2010-2025, same demand):
+Over the 16 ERA5 weather years (2010-2025, same demand), from
+[results/presets_weather_years.csv](results/presets_weather_years.csv):
 
 | preset | CO2 [Mt] | curtailed [TWh] | years with energy not served | worst year |
 |---|---:|---:|---:|---|
@@ -53,12 +55,15 @@ coal out by 2030 without building firm capacity in its place leaves 6-10 TWh of 
 inflexible part of the system (nuclear at 50% minimum load, must-run, other sources) plus 90 GW of wind and PV makes
 curtailment the dominant issue (17-24% of the wind and PV available).
 
-## Validation: does it reproduce 2025?
+## Calibration check: how close does it get to 2025?
 
 The model is run on the measured hourly inputs of 2025 (demand, wind and PV available = generation + PSE
 non-market redispatch, "other" small sources, must-run envelope) with the large-unit fleet of 2025; everything else
 is modelled and compared with PSE data (`python -m mix_sandbox validate`, file
-[results/validation_2025.md](results/validation_2025.md)):
+[results/validation_2025.md](results/validation_2025.md)). This is an in-sample check, not a validation: five
+parameters were fitted to the same year (below), so it shows how far a tuned toy can follow 2025, not how well it
+would predict another year. An out-of-sample test would need the unit data and fleet of another year (for example
+2026), which the toy does not include.
 
 | quantity | PSE 2025 | model | comment |
 |---|---:|---:|---|
@@ -141,10 +146,10 @@ gzip-compressed JSON files and `meta.json`, 97 kB loaded at start) is committed.
 
 | input | source | use |
 |---|---|---|
-| demand, wind, PV, generation, storage charging, cross-border balance, 2024-06-14..2026-09-30 | PSE reports API `his-wlk-cal` via [pse-opendata](https://pypi.org/project/pse-opendata/) (downloaded with commit 8b01ec8, now `pse-opendata>=0.2,<0.3`) | reference year, validation |
-| non-market redispatch of wind and PV | PSE `poze-redoze` | added back to get the available wind and PV; validation of curtailment |
-| generation of units >= 100 MW, 2025 | PSE `gen-jw`, plants classified by fuel in [config/plants.csv](config/plants.csv) | large-unit fleet, validation |
-| market price RCE, 2025 | PSE `rce-pln` | validation of the price |
+| demand, wind, PV, generation, storage charging, cross-border balance, 2024-06-14..2026-09-30 | PSE reports API `his-wlk-cal` via [pse-opendata](https://pypi.org/project/pse-opendata/) (downloaded with commit 8b01ec8, now `pse-opendata>=0.2,<0.3`) | reference year, calibration check |
+| non-market redispatch of wind and PV | PSE `poze-redoze` | added back to get the available wind and PV; check of curtailment |
+| generation of units >= 100 MW, 2025 | PSE `gen-jw`, plants classified by fuel in [config/plants.csv](config/plants.csv) | large-unit fleet, calibration check |
+| market price RCE, 2025 | PSE `rce-pln` | check of the price |
 | wind speed at 100 m, irradiance, temperature, 2010-01..2026-09 | ERA5 through the Open-Meteo archive API, 15 onshore + 4 Baltic + 14 PV points ([config/era5_points.toml](config/era5_points.toml)) | offshore wind, weather years |
 | installed capacity, KPEiK plan, NTC, fuel and CO2 prices, emission factors | listed with dates in [config/assumptions.toml](config/assumptions.toml) and [config/scenarios.toml](config/scenarios.toml) | scaling, presets, costs |
 
@@ -199,10 +204,11 @@ Main cost assumptions (2025 averages): EUA 74 EUR/t (ESMA), TTF 36 EUR/MWh + 4 E
 python -m venv .venv
 .venv/Scripts/python -m pip install -e ".[data,dev]"     # Linux/macOS: .venv/bin/python
 python -m mix_sandbox fetch          # PSE and ERA5 into data/ (cached; ERA5 ~2800 Open-Meteo request units)
-python -m mix_sandbox validate       # results/validation_2025.*
+python -m mix_sandbox validate       # results/validation_2025.* (calibration check)
 python -m mix_sandbox build          # docs/data/
 python -m mix_sandbox card           # docs/card.png, the link preview (og:image)
 python -m mix_sandbox simulate --scenario kpeik2030 --weather-year 2018 --set storage_gwh=60
+python -m mix_sandbox simulate --presets   # results/presets.csv, results/presets_weather_years.csv
 python -m http.server 8000 --directory docs
 pytest -q                            # Python model, page data, JavaScript parity (needs Node.js)
 node --test "tests/js/*.test.mjs"    # JavaScript model
@@ -219,7 +225,7 @@ The tests and the page need only the committed `docs/data`; `requests`, `scipy`,
 | `src/mix_sandbox/` | `fetch.py`, `pse_data.py`, `era5.py`, `weather.py`, `profiles.py`, `build.py`, `model.py`, `validate.py`, `simulate.py`, `card.py`, `cli.py` |
 | `config/` | assumptions with sources, presets, ERA5 points, plant fuels |
 | `tests/` | pytest (model properties, page data, JS parity) and `tests/js` (node:test) |
-| `results/` | validation 2025 |
+| `results/` | calibration check 2025, preset results on every weather year |
 
 ## Data sources and terms
 

@@ -1,0 +1,5 @@
+scenario,weather,vre_share_pct,co2_mt,co2_g_kwh,curtail_twh,ens_twh,ens_hours,ens_max_gw,price_mean_pln_mwh
+today,PSE 2025,27.2,88.1,556,2.0,0.0,0,0.0,339
+kpeik2030,PSE 2025,44.6,64.3,368,6.08,0.0,0,0.0,312
+no_coal,PSE 2025,47.4,24.0,138,1.16,8.7348,2705,11.54,1799
+kpeik2040,PSE 2025,56.6,34.3,143,27.83,0.102,79,3.48,266

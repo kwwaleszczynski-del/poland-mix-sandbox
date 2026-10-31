@@ -6,6 +6,7 @@ Usage:
     python -m mix_sandbox validate [--calibrate]
     python -m mix_sandbox card
     python -m mix_sandbox simulate [--scenario today] [--weather-year 2025] [--set pv=40 storage_gwh=60]
+    python -m mix_sandbox simulate --presets
 """
 
 from __future__ import annotations
@@ -34,6 +35,8 @@ def main(argv: list[str] | None = None) -> int:
     p_sim.add_argument("--scenario", default="today")
     p_sim.add_argument("--weather-year", default=None, help="weather year (default: the reference year)")
     p_sim.add_argument("--set", nargs="*", default=[], metavar="KEY=VALUE", help="override scenario parameters")
+    p_sim.add_argument("--presets", action="store_true",
+                       help="run every preset on every weather year and write results/presets*.csv")
 
     args = parser.parse_args(argv)
     logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO,
@@ -52,8 +55,11 @@ def main(argv: list[str] | None = None) -> int:
         card.run()
     elif args.command == "simulate":
         from . import simulate
-        overrides = dict(item.split("=", 1) for item in args.set)
-        simulate.run(args.scenario, args.weather_year, overrides)
+        if args.presets:
+            simulate.presets()
+        else:
+            overrides = dict(item.split("=", 1) for item in args.set)
+            simulate.run(args.scenario, args.weather_year, overrides)
     return 0
 
 
